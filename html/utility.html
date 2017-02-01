@@ -1,0 +1,206 @@
+<html><head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script type="text/javascript" src="/jquery.min.js"></script>
+    <script type="text/javascript" src="/bootstrap.min.js"></script>    
+    <link rel="stylesheet" href="/bootstrap.min.css">  
+    </head><body>
+        <div class="navbar navbar-default navbar-static-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-ex-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="#"><span>QControl BBQ Smoker Controller Config</span></a>
+                </div>
+                <div class="collapse navbar-collapse" id="navbar-ex-collapse">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li>
+                            <a href="config.html">Home</a>
+                        </li>
+                        <li>
+                            <a href="network.html">Network</a>
+                        </li>
+                        <li>
+                            <a href="cloudgen.html">Cloud<br></a>
+                        </li>
+                        <li>
+                            <a href="qgeneral.html">Q-Control General<br></a>
+                        </li>
+                        <li>
+                            <a href="qprobes.html">Probes</a>
+                        </li>
+                        <li class="active">
+                            <a href="#">Utility<br></a>
+                        </li>
+                        <li>
+                            <a href="index.html">Exit</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+<title>Utility</title>
+<div class="btn-group btn-group-justified">
+<a href="./browse" class="btn btn-block btn-default" >Browse Files</a>
+<a href="./restartesp" class="btn btn-block btn-default" >Restart ESPress</a>
+<a href="./flashupdate.html" class="btn btn-block btn-default" >Flash/Update Espress</a>
+<a href="./stopavr" class="btn btn-block btn-default" >Stop AVR Link</a>
+</div><br>
+
+ <div class="section">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="panel panel-primary">
+              <div class="panel-heading">
+                <h3 class="panel-title">ESP Hardware</h3>
+              </div>
+              <div class="panel-body">
+                <form class="form-horizontal" role="form">
+                  <div class="form-group">
+                    <div class="col-sm-2">
+                      <label class="control-label">AVR RX Pin:</label>
+                    </div>
+                    <div class="col-sm-2">
+                      <input type="text" class="form-control" placeholder="4" id="rxpin" name="rxpin">
+                    </div>
+                  </div>
+				  <div class="form-group">
+                    <div class="col-sm-2">
+                      <label class="control-label">AVR TX Pin:</label>
+                    </div>
+                    <div class="col-sm-2">
+                      <input type="text" class="form-control" placeholder="5" id="txpin" name="txpin">
+                    </div>
+                  </div>
+				  <div class="form-group">
+                    <div class="col-sm-2">
+                      <label class="control-label">AVR Reset Pin:</label>
+                    </div>
+                    <div class="col-sm-2">
+                      <input type="text" class="form-control" placeholder="2" id="rspin" name="rspin">
+                    </div>
+                  </div>
+				  <div class="form-group">
+                    <div class="col-sm-2">
+                      <label class="control-label">AVR Baud Rate:</label>
+                    </div>
+                    <div class="col-sm-2">
+                      <input type="text" class="form-control" placeholder="38400" id="baud" name="baud">
+                    </div>
+                  </div>
+				  <div class="form-group">
+                    <div class="col-sm-2">
+                      <label class="control-label">AVR Serial Buffer:</label>
+                    </div>
+                    <div class="col-sm-2">
+                      <input type="text" class="form-control" placeholder="128" id="buff" name="buff">
+                    </div>
+                  </div>
+				  <div class="form-group">
+                    <div class="col-sm-2">
+                      <label class="control-label">AVR Flash Baud:</label>
+                    </div>
+                    <div class="col-sm-2">
+                      <input type="text" class="form-control" placeholder="57600" id="fbaud" name="fbaud">
+                    </div>
+                  </div>				  
+				  <div class="form-group">
+                    <div class="col-sm-2">
+                      <label class="control-label">AVR Flash Page Size:</label>
+                    </div>
+                    <div class="col-sm-2">
+                      <input type="text" class="form-control" placeholder="128" id="fpage" name="fpage">
+                    </div>
+                  </div>
+				   <div class="row">
+            <div class="col-md-12">
+              <div class="row">
+                <div class="col-md-12">
+                  <a class="btn btn-block btn-danger btn-lg" id="savebut" name="savebut" onclick="SendFormJson()">Save Changes</a>
+                </div>
+              </div>
+            </div>          
+          </di
+				    
+                </form>
+              </div>
+            </div>
+			</div>
+</div>
+</div>
+</div>			
+
+  <script>
+            
+            $.get( "/jsonload?f=espgen.json", function( data ) {  																			          
+                    myFunction(data);                                                                            
+			});
+            
+            function myFunction(jsonData) {  //process the json from the ESP
+            
+            var jsonDataKeys = Object.keys(jsonData);
+            for(var i=0; i<jsonDataKeys.length; i++){
+                var fields = document.getElementsByName(jsonDataKeys[i]);                        
+                for (var f=0; f<fields.length; f++){
+                var field=fields[f];
+                if (field.getAttribute('type')=='checkbox')                 
+                                          {if (field.getAttribute('value')==jsonData[jsonDataKeys[i]])  field.setAttribute('checked','checked');                                   
+                                          }     
+                else if (field.getAttribute('type')=='radio')                 
+                                          {if (field.getAttribute('value')==jsonData[jsonDataKeys[i]])  field.setAttribute('checked','checked');                                         
+                                           } 
+                else if (field.getAttribute('type')=='button')                 
+                                          {  }//do nothing  
+                                                                                  
+                else {field.value =  jsonData[jsonDataKeys[i]];}
+                } //for fields loop
+              }//for loop
+            } //function
+    </script>
+	
+	 <script>
+      function SendFormJson(){ 
+                         document.getElementById("savebut").value= "Saved...";
+                         var inputs=document.getElementsByTagName("*")
+                              var data = {};
+                              var field;
+                              var i;
+                            for (i=0; i<inputs.length; i++) 
+                               {
+                                 field = inputs[i];                   
+                                 if (field.tagName == 'INPUT' || field.tagName == 'SELECT')
+                                 {
+                                  if (field.getAttribute('type') != undefined)                                  
+                                        {
+                                          if (field.getAttribute('type')=='checkbox')                 
+                                                      { 
+                                                       if (field.checked)    
+                                                              {data[field.name] = field.value;}                                   
+                                                      }     
+                                           else if (field.getAttribute('type')=='radio')                 
+                                                      {
+                                                       if (field.checked)    
+                                                              {data[field.name] = field.value;}                                   
+                                                      }        
+                                          else if (field.getAttribute('type')=='button')                 
+                                                      {  }//do nothing                                                        
+                                           else {data[field.name] = field.value;}  //not checkbox          
+                                        }
+                                   else  {data[field.name] = field.value;}                          
+                                }//not input or select so do nothing...                       
+                               } //for loop
+                        //alert(   JSON.stringify(data));    
+						$.post( "/jsonsave?f=espgen.json&js="+JSON.stringify(data));	
+                        }
+    </script>
+	
+</body></html>	
+
+
+
+

@@ -1,0 +1,310 @@
+<html><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script type="text/javascript" src="/jquery.min.js"></script>
+    <script type="text/javascript" src="/bootstrap.min.js"></script>    
+    <link rel="stylesheet" href="/bootstrap.min.css">  
+  </head><body>
+     <div class="navbar navbar-default navbar-static-top"><div class="container"><div class="navbar-header">
+ <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-ex-collapse">
+ <span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
+ </button><a class="navbar-brand" href="#"><span>QControl BBQ Smoker Controller Config</span></a></div>
+ <div class="collapse navbar-collapse" id="navbar-ex-collapse"><ul class="nav navbar-nav navbar-right">
+ <li><a href="config.html">Home</a></li>
+ <li><a href="network.html">Network</a></li>
+ <li class="active"><a href="#">Cloud<br></a></li>
+ <li><a href="qgeneral.html">Q-Control General<br></a></li>
+ <li><a href="qprobes.html">Probes</a></li>
+ <li><a href="utility.html">Utility<br></a></li>
+ <li><a href="index.html">Exit</a></li>
+ </ul></div></div></div>    
+    <div class="section">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="panel panel-primary">
+              <div class="panel-heading">
+                <h3 class="panel-title">ThingSpeak Settings</h3>
+              </div>
+              <div class="panel-body">
+                <form class="form-horizontal" role="form">
+                  <div class="form-group">
+                    <div class="col-sm-3">
+                      <label class="control-label">ThingSpeak Feature</label>
+                    </div>
+                    <div class="col-sm-3">
+                      <select class="form-control" id="status" name="status" value="0">
+                        <option value="0">Disable</option>
+                        <option value="1">Enabled</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="col-sm-3">
+                      <label class="control-label">ThingSpeak Server URL/IP</label>
+                    </div>
+                    <div class="col-sm-9">
+                      <input type="string" class="form-control" id="spkurl" name="spkurl" value="api.thingspeak.com">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="col-sm-3">
+                      <label class="control-label">ThingSpeak Profile APIKey</label>
+                    </div>
+                    <div class="col-sm-9">
+                      <input type="string" class="form-control" id="spkakey" name="spkakey">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="col-sm-offset-4 col-sm-10">
+                      <div class="col-sm-10">
+                        <input type="button" class="btn" id="createch" name="createch" value="Auto Create Channel" onclick="CreateChannel()">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="col-sm-3">
+                      <label class="control-label">ThingSpeak Channel WriteKey</label>
+                    </div>
+                    <div class="col-sm-9">
+                      <input class="form-control" id="spkwkey" name="spkwkey" type="text">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="col-sm-3">
+                      <label class="control-label">ThingSpeak write interval seconds (15 or more)</label>
+                    </div>
+                    <div class="col-sm-9">
+                      <input class="form-control" id="spkint" name="spkint" type="number" value="15">
+                    </div>
+                  </div>
+				  <hr>
+				   <div class="form-group">
+                    <div class="col-sm-3">
+                      <label class="control-label">TalkBack (Remote Temp) Feature</label>
+                    </div>
+                    <div class="col-sm-3">
+                      <select class="form-control" id="tbstatus" name="tbstatus" value="0">
+                        <option value="0">Disable</option>
+                        <option value="1">Enabled</option>
+                      </select>
+                    </div>
+                  </div>
+				   <div class="form-group">
+                    <div class="col-sm-3">
+                      <label class="control-label">Talkback ID (temperature set)</label>
+                    </div>
+                    <div class="col-sm-9">
+                      <input class="form-control" id="tkbid" name="tkbid" type="text">
+                    </div>
+                  </div>
+				   <div class="form-group">
+                    <div class="col-sm-3">
+                      <label class="control-label">TalkBack key</label>
+                    </div>
+                    <div class="col-sm-9">
+                      <input class="form-control" id="tkbkey" name="tkbkey" type="text">
+                    </div>
+                  </div>
+				   <div class="form-group">
+                    <div class="col-sm-3">
+                      <label class="control-label">TalkBack read interval seconds (5 or more)</label>
+                    </div>
+                    <div class="col-sm-9">
+                      <input class="form-control" id="tkbint" name="tkbint" type="number" value="5">
+                    </div>
+                  </div>				                
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="section">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="panel panel-primary">
+              <div class="panel-heading">
+                <h3 class="panel-title">MQTT Settings</h3>
+              </div>
+              <div class="panel-body">
+                <form class="form-horizontal" role="form">
+                  <div class="form-group">
+                    <div class="col-sm-3">
+                      <label class="control-label">MQTT Interface</label>
+                    </div>
+                    <div class="col-sm-3">
+                      <select class="form-control" id="mqstatus" name="mqstatus" value="0">
+                        <option value="0">Disable</option>
+                        <option value="1">Enabled</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="col-sm-3">
+                      <label class="control-label">MQTT Server</label>
+                    </div>
+                    <div class="col-sm-9">
+                      <input class="form-control" id="mqserver" name="mqserver" type="text">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="col-sm-3">
+                      <label class="control-label">MQTT Port</label>
+                    </div>
+                    <div class="col-sm-3">
+                      <input class="form-control" id="mqport" name="mqport" type="text" value="1883">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="col-sm-3">
+                      <label class="control-label">MQTT Username</label>
+                    </div>
+                    <div class="col-sm-9">
+                      <input class="form-control" id="mquser" name="mquser" type="string">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="col-sm-3">
+                      <label class="control-label">MQTT Password</label>
+                    </div>
+                    <div class="col-sm-9">
+                      <input class="form-control" id="mqpass" name="mqpass" type="password">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="col-sm-3">
+                      <label class="control-label">MQTT Publish Topic</label>
+                    </div>
+                    <div class="col-sm-9">
+                      <input class="form-control" id="mqpub" name="mqpub" type="string" value="MyEspPub">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="col-sm-3">
+                      <label class="control-label">MQTT Subscribe Topic</label>
+                    </div>
+                    <div class="col-sm-9">
+                      <input class="form-control" id="mqsub" name="mqsub" type="string" value="MyEspSub">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="col-sm-3">
+                      <label class="control-label">MQTT interval (default 5 seconds)</label>
+                    </div>
+                    <div class="col-sm-3">
+                      <input class="form-control" id="mqint" name="mqint" type="text" value="5">
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="row">
+                <div class="col-md-12">
+                  <a class="btn btn-block btn-danger btn-lg" id="savebut" name="savebut" onclick="SendFormJson()">Save Changes</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+	   <br><br><br>
+    </div>
+    <script>
+      function CreateChannel()
+                        {
+                        var wifihttp = new XMLHttpRequest();
+                        //var wurl = location.protocol + '//' + location.host+"/thingcreate?do=create&key="+document.getElementById("spkurl").value;
+                        
+                        
+                        
+                        wurl="http://"+document.getElementById("spkurl").value+'/channels.json/?api_key='+document.getElementById("spkakey").value+
+                              '&name=myQControl&field1=PitTemp&field2=FoodTemp1&field3=FoodTemp2&field4=AmbTemp&field5=AlarmMsg&field6=Fan&field7=SetPoint&field8=LidOpen';
+                        
+                        
+                        wifihttp.onreadystatechange = function() {
+                            if (wifihttp.readyState == 4 && wifihttp.status == 200) {
+                                var res = JSON.parse(wifihttp.responseText);        
+                                document.getElementById("spkwkey").value=res.api_keys[0].api_key;//get writekeyfrom result....
+                        		document.getElementById("createch").value='Auto Create Channel';
+                                alert('Channel Created Success!!!!');		
+                            } else if (wifihttp.readyState == 4 && wifihttp.status != 200) {document.getElementById("createch").value='Auto Create Channel';
+                        																	alert('Cannot Create Channel...');}
+                        };
+                        wifihttp.open("POST", wurl, true);
+                        wifihttp.send();
+                        document.getElementById("createch").value='wait';
+                        
+                        }
+    </script>
+    <script>
+ 
+                        
+                         $.get( "/jsonload?f=cloudgen.json", function( data ) {  																			          
+                              myFunction(data);                                                                            
+							});
+                        
+                        function myFunction(jsonData) {  //process the json from the ESP
+                        
+                        var jsonDataKeys = Object.keys(jsonData);
+                        for(var i=0; i<jsonDataKeys.length; i++){
+                            var fields = document.getElementsByName(jsonDataKeys[i]);                      
+                            for (var f=0; f<fields.length; f++){
+                            var field=fields[f];
+                            if (field.getAttribute('type')=='checkbox')                 
+                                                      {if (field.getAttribute('value')==jsonData[jsonDataKeys[i]])  field.setAttribute('checked','checked');                                   
+                                                      }     
+                            else if (field.getAttribute('type')=='radio')                 
+                                                      {if (field.getAttribute('value')==jsonData[jsonDataKeys[i]])  field.setAttribute('checked','checked');                                         
+                                                       }                                         
+                            else if (field.getAttribute('type')=='button')                 
+                                                      {  }//do nothing  
+                            else   {field.value =  jsonData[jsonDataKeys[i]];}
+                            } //for fields loop
+                          }//for loop
+                        } //function
+    </script>
+    <script>
+      function SendFormJson(){ 
+                         document.getElementById("savebut").value= "Saved...";
+                         var inputs=document.getElementsByTagName("*")
+                              var data = {};
+                              var field;
+                              var i;
+                            for (i=0; i<inputs.length; i++) 
+                               {
+                                 field = inputs[i];                   
+                                 if (field.tagName == 'INPUT' || field.tagName == 'SELECT')
+                                 {
+                                  if (field.getAttribute('type') != undefined)                                  
+                                        {
+                                          if (field.getAttribute('type')=='checkbox')                 
+                                                      { 
+                                                       if (field.checked)    
+                                                              {data[field.name] = field.value;}                                   
+                                                      }     
+                                           else if (field.getAttribute('type')=='radio')                 
+                                                      {
+                                                       if (field.checked)    
+                                                              {data[field.name] = field.value;}                                   
+                                                      }        
+                                          else if (field.getAttribute('type')=='button')                 
+                                                      {  }//do nothing                                                        
+                                           else {data[field.name] = field.value;}  //not checkbox          
+                                        }
+                                   else  {data[field.name] = field.value;}                          
+                                }//not input or select so do nothing...                       
+                               } //for loop
+                        //alert(   JSON.stringify(data));                                                    
+						$.post( "/jsonsave?f=cloudgen.json&js="+JSON.stringify(data));		
+ 
+                        }
+    </script>
+  
+
+</body></html>

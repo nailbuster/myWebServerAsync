@@ -1,0 +1,789 @@
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">	
+    <script type="text/javascript" src="/jquery.min.js"></script>
+    <script type="text/javascript" src="/bootstrap.min.js"></script>    
+    <link rel="stylesheet" href="/bootstrap.min.css">  
+	<script  src="/Chart.min.js"></script>
+	<script  src="/gauge.min.js"></script>
+	       				
+	
+</head>
+<body>
+    <div class="navbar navbar-default navbar-static-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-ex-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#"><span>Q-Control BBQ Smoker</span></a>
+        </div>
+        <div class="collapse navbar-collapse" id="navbar-ex-collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li class="active">
+              <a href="#">Home</a>
+            </li>
+            <li>
+              <a href="alarms.html">Alarms</a>
+            </li>
+            <li>
+              <a href="#">Cloud<br></a>
+            </li>
+            <li>
+              <a href="config.html">Config</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+<div class="section">
+      <div class="container" style="width : 100%;max-width : 1500px;">
+        <div class="gauges" style = "text-align: center;">
+<div id="PitGauge" class="TempGauge">
+<canvas id="PitGaugeCanvas"></canvas>
+</div>
+<div id="FanGauge" class="FanGauge">
+<canvas id="FanGaugeCanvas"></canvas>
+</div>
+<div id="FoodGauge1" class="FoodGauge">
+<canvas id="FoodGauge1Canvas"></canvas>
+</div>
+<div id="FoodGauge2" class="FoodGauge">
+<canvas id="FoodGauge2Canvas"></canvas>
+</div>
+<div id="FoodGauge3" class="FoodGauge">
+<canvas id="FoodGauge3Canvas"></canvas>
+</div>
+        </div>
+      </div>
+    </div>
+   <div class="section">
+        <div class="container text-left" style="width:80%; height : 40px;max-width : 1300px;">
+		    <label class="panel-label pull-left" style="padding:15px" id="curStatus">Cook Status</label>
+		    <button id="cookstart" class="btn btn-info pull-left" style="margin-left:5px;" data-toggle="modal" data-target="#modalStartTemp">Start Cook</button>
+			<button id="cookend" class="btn pull-left" data-toggle="modal" style="margin-left:5px;" data-target="#modalCookEnd">Stop Cook</button>
+            <button id="setempbut" class="btn btn-success pull-left" data-toggle="modal" style="margin-left:5px;" data-target="#modalTemp">Change Pit Temp</button>                       
+        </div>
+    </div>
+    <div height="4px">
+        <hr />
+    </div>
+    <div class="section">
+              <div class="container" style="width : 100%;max-width : 1300px">
+            <div style="width:100%;height:50%;display: inline-block">
+                <canvas id="myChart"></canvas>
+            </div>
+        </div>
+    </div>
+	<div class="section">
+        <div class="container" style="width : 30%;max-width : 1300px;">
+		 <div style="text-align: center;">
+          <label class="control-label">Graph Time</label>   
+		  <select id="trange" name="trange" type="number" onchange="fnTimeChange()" style="margin-left:5px;" class="form-control" value="0" style="width:30%;min-width:100px;max-width:150px">
+            <option value="0">Current</option>
+            <option value="60">1 hour</option>
+            <option value="120">2 hours</option>
+            <option value="240">4 hours</option>
+            <option value="360">6 hours</option>
+            <option value="480">8 hours</option>
+            <option value="720">12 hours</option>
+            <option value="1440">24 hours</option>
+			<option value="9999">All</option>
+        </select>
+        </div>
+		</div>
+    </div>
+	
+	
+	
+    <div class="modal fade" id="modalTemp">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title">Set New Temperature (in F)</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <input class="form-control" id="SetNewTemp" placeholder="220" type="number">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <a class="btn btn-default" data-dismiss="modal">Cancel</a>
+                    <a class="btn btn-primary" onclick="sendNewTemp()" data-dismiss="modal">Set PitTemp</a>
+                </div>
+            </div>
+        </div>
+    </div>
+	 <div class="modal fade" id="modalStartTemp">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title">Start Pit Temperature (in F)</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <input class="form-control" id="StartNewTemp" placeholder="220" value="220" type="number">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <a class="btn btn-default" data-dismiss="modal">Cancel</a>
+                    <a class="btn btn-primary" onclick="startNewTemp()" data-dismiss="modal">Set Start PitTemp</a>
+                </div>
+            </div>
+        </div>
+    </div>
+		 <div class="modal fade" id="modalCookEnd">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title">Are you Sure?</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label class="form-control" id="StartNewTemp" type="number">Are you sure you want to STOP COOK?</label>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <a class="btn btn-default" data-dismiss="modal">Cancel</a>
+                    <a class="btn btn-primary" onclick="cookstop()" data-dismiss="modal">Stop Cook</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+ 
+ <style type="text/css">
+     .TempGauge {
+                display: inline-block;
+				width: 50%;		
+				height: 50%;	
+				max-height: 250px;		
+			    max-width : 250px;
+					
+                
+            }
+            .FanGauge {
+                display: inline-block;
+                width: 40%;  
+				height: 40%;		
+				max-width : 200px;	
+				max-height : 200px;	
+				
+			
+            }
+			.FoodGauge {
+                display: inline-block;
+                width: 32%;      						
+				height: 32%;
+				max-width : 220px;
+				max-height : 220px;
+				visibility : hidden;	
+		
+            }
+			.gauges{					
+
+			}
+
+    </style>
+
+
+
+
+
+<script>
+
+        var sendNewTemp; //scope function;
+		var startNewTemp;
+        var fnTimeChange; //scope function;
+		var cookstop;
+
+		$('.modal').on('shown.bs.modal', function () {         //bootstrap focus issue
+			$(this).find('input:visible:first').focus();})
+		
+		
+window.onload = function () {
+var curData;
+var urlHost="";  
+//urlHost="http://192.168.1.19";  //debug remove
+
+
+var PitGauge = new RadialGauge({
+    renderTo: 'PitGaugeCanvas',
+    units: 'Pit Temp',
+    minValue: 0,
+    maxValue: 800,
+    majorTicks: ['0','100','200','300','400','500','600','700','800'],
+    minorTicks: 4,
+    ticksAngle: 270,
+    startAngle: 45,
+    strokeTicks: true,
+    highlights  : [
+	    { from : 0,  to : 0, color : 'rgba(63, 191, 63, 0.7)' },
+        { from : 500,  to : 600, color : 'rgba(239, 243, 16, 0.7)' },
+        { from : 600, to : 800, color : 'rgba(225, 7, 23, 0.75)' }
+    ],
+    valueInt: 1,
+    valueDec: 0,
+    colorPlate: "#fff",
+    colorMajorTicks: "#686868",
+    colorMinorTicks: "#686868",
+    colorTitle: "#000",
+    colorUnits: "#000",
+    colorNumbers: "#686868",
+    valueBox: true,
+    colorValueText: "rgba(20, 16, 243, 0.7)",
+    colorValueBoxRect: "#fff",
+    colorValueBoxRectEnd: "#fff",
+    colorValueBoxBackground: "#fff",
+    colorValueBoxShadow: true,
+    colorValueTextShadow: true,
+    borderShadowWidth: 0,
+    borders: true,
+    borderInnerWidth: 0,
+    borderMiddleWidth: 0,
+    borderOuterWidth: 5,
+    colorBorderOuter: "#fafafa",
+    colorBorderOuterEnd: "#cdcdcd",
+    animationDuration: 1500,
+    animationRule: "dequint",
+    fontNumbers: "Verdana",
+    fontTitle: "Verdana",
+    fontUnits: "Verdana",
+    fontValue: "Verdana",    
+    fontNumbersSize: 20,
+    fontNumbersStyle: 'italic',
+    fontNumbersWeight: 'bold',
+    fontTitleSize: 24,
+    fontUnitsSize: 22,
+    fontValueSize: 50,
+    animatedValue: true
+});
+PitGauge.draw();
+//PitGauge.value = "225";
+
+var FanGauge = new RadialGauge({
+    renderTo: 'FanGaugeCanvas',
+	units: 'Fan',
+	valueInt: 1,
+    valueDec: 0,
+	startAngle: 90,
+    ticksAngle: 180,
+	minorTicks: 4,
+	colorPlate: "#fff",
+    borderShadowWidth: 0,
+    borders: false,
+	valueBox: false,
+    needleType: "arrow",
+    needleWidth: 2,
+    needleCircleSize: 7,
+    needleCircleOuter: true,
+    needleCircleInner: false,
+    animationDuration: 1500,
+    animationRule: "linear"
+}).draw();
+
+//FanGauge.value = "70";
+
+
+//PitGauge.options.highlights[0].from=215;
+//PitGauge.options.highlights[0].to=235;
+//PitGauge.update();
+
+var FoodGaugeOptions={
+    renderTo: 'FoodGauge1Canvas',
+    units: 'Food 1',
+    minValue: 100,
+    maxValue: 240,
+    majorTicks: ['100','120','140','160','180','200','220','240'],
+    minorTicks: 4,
+    ticksAngle: 270,
+    startAngle: 45,
+    strokeTicks: true,
+    highlights  : [
+        { from : 190,  to : 210, color : 'rgba(239, 243, 16, 0.7)' },
+        { from : 210, to : 240, color : 'rgba(225, 7, 23, 0.75)' }
+    ],
+    valueInt: 1,
+    valueDec: 0,
+    colorPlate: "#fff",
+    colorMajorTicks: "#686868",
+    colorMinorTicks: "#686868",
+    colorTitle: "#000",
+    colorUnits: "#000",
+    colorNumbers: "#686868",
+    valueBox: true,
+    colorValueText: "rgba(20, 16, 243, 0.7)",
+    colorValueBoxRect: "#fff",
+    colorValueBoxRectEnd: "#fff",
+    colorValueBoxBackground: "#fff",
+    colorValueBoxShadow: true,
+    colorValueTextShadow: true,
+    borderShadowWidth: 0,
+    borders: true,
+    borderInnerWidth: 0,
+    borderMiddleWidth: 0,
+    borderOuterWidth: 5,
+    colorBorderOuter: "#fafafa",
+    colorBorderOuterEnd: "#cdcdcd",
+    animationDuration: 1500,
+    animationRule: "dequint",
+    fontNumbers: "Verdana",
+    fontTitle: "Verdana",
+    fontUnits: "Verdana",
+    fontValue: "Verdana",    
+    fontNumbersSize: 20,
+    fontNumbersStyle: 'italic',
+    fontNumbersWeight: 'bold',
+    fontTitleSize: 24,
+    fontUnitsSize: 22,
+    fontValueSize: 50,
+    animatedValue: true
+};
+
+var FoodGauge1 = new RadialGauge(FoodGaugeOptions);
+FoodGauge1.draw();
+//FoodGauge1.value = "155";
+
+
+FoodGaugeOptions.renderTo='FoodGauge2Canvas';
+FoodGaugeOptions.units='Food2';
+var FoodGauge2 = new RadialGauge(FoodGaugeOptions);
+//FoodGauge2.value="123";
+FoodGauge2.draw();
+
+FoodGaugeOptions.renderTo='FoodGauge3Canvas';
+FoodGaugeOptions.units='Food3';
+var FoodGauge3 = new RadialGauge(FoodGaugeOptions);
+//FoodGauge3.value="145";
+FoodGauge3.draw();
+
+sendNewTemp = function(){	
+            var xmlhttp = new XMLHttpRequest();
+            var url = urlHost+"/setpoint?do=settemp"
+            nt=document.getElementById("SetNewTemp").value;	
+            if (nt>=0 & nt<1000)
+            {
+            		url += "&setpointf="+ nt;
+            		xmlhttp.open("GET", url, true);
+            		xmlhttp.send();
+            		//alert("Setting New Temp "+url);
+            }		
+            }
+			
+ startNewTemp = function() {					
+                    var xmlhttp = new XMLHttpRequest();
+                    var url = urlHost + "/curcook?do=cookstart"
+                    nt = document.getElementById("StartNewTemp").value;
+                    if (nt >= 0 & nt < 1000) {
+                        url += "&setpointf=" + nt;
+                        xmlhttp.open("GET", url, true);
+                        xmlhttp.send();                        
+                    }
+                }
+
+				cookstop = function(){
+					var xmlhttp = new XMLHttpRequest();
+                    var url = urlHost + "/curcook?do=cookend"                                 
+                    xmlhttp.open("GET", url, true);
+                    xmlhttp.send();                    
+                    }			
+
+var curSetPoint = 0;
+var upInterval = 3000;   //every 3 seconds			
+
+					function hideGauge(whichID){
+        			   document.getElementById(whichID).style.display='none';
+        			   document.getElementById(whichID).style.visibility='hidden';			
+        			}
+        		    function showGauge(whichID){
+        			   document.getElementById(whichID).style.display='inline-block';
+        			   document.getElementById(whichID).style.visibility='visible';			
+        			}
+        		
+        		
+        		
+        			function displayPitGauge(point) {
+					   if (!point){hideGauge("PitGauge"); return;} else showGauge("PitGauge");	                        
+                        PitGauge.value=point; 
+						PitGauge.options.highlights[0].from=curSetPoint - 7;
+						PitGauge.options.highlights[0].to=curSetPoint + 7;		
+						PitGauge.update();												                       
+                    }
+        			
+        
+                    function displayFoodGauge1(point) {
+        				if (!point){hideGauge("FoodGauge1"); return;} else showGauge("FoodGauge1");			                        
+                        FoodGauge1.value=point;
+						FoodGauge1.update();                        
+                    }
+        
+                    function displayFoodGauge2(point) {
+        				if (!point){hideGauge("FoodGauge2"); return;} else showGauge("FoodGauge2");			
+						FoodGauge2.value=point;
+						FoodGauge2.update();                        
+                    }
+        
+                    function displayFoodGauge3(point) {
+        				if (!point){hideGauge("FoodGauge3"); return;} else showGauge("FoodGauge3");
+						FoodGauge3.value=point;
+						FoodGauge3.update();                        
+                    }
+        
+                    function displayFanGauge(point) {			
+                        FanGauge.value=point;
+                        FanGauge.update();
+                    }
+					
+					
+function getUpdates(){
+        //curData=JSON.parse('{"pittemp":425,"food1":144,"food2":122,"food3":123,"fanavg":80,"fancur":40,"setpoint":454,"lidopen":0}');
+		//curData=JSON.parse('{"pittemp":425,"food1":144,"fanavg":80,"fancur":40,"setpoint":454,"lidopen":0}');
+		//curData=JSON.parse('{"pittemp":425,"food1":144,"food2":122,"fanavg":80,"fancur":40,"setpoint":454,"lidopen":0}');
+		//updatedisplay(); 
+		//return;
+        var xmlhttp = new XMLHttpRequest();
+        var url = urlHost+"/curinfo";
+        
+        xmlhttp.onload = function(e) {    
+            if (xmlhttp.status == 200) {	    
+                curData = JSON.parse(xmlhttp.responseText);		
+                updatedisplay();               	   
+            }
+        };
+        
+        xmlhttp.open("GET", url);
+        xmlhttp.send();  
+        }		
+
+
+function updatedisplay() {			
+
+				    PitGauge.options.units=curData.PN0;
+					FoodGauge1.options.units=curData.PN1;
+					FoodGauge2.options.units=curData.PN2;
+					FoodGauge3.options.units=curData.PN3;
+		
+					
+                    displayFoodGauge1(curData.food1);
+                    displayFoodGauge2(curData.food2);
+                    displayFoodGauge3(curData.food3);
+                    displayFanGauge(curData.fancur);
+                    //document.getElementById("curPoint").html("Current SetPoint is ");
+
+                    curSetPoint = curData.setpoint;                    
+                    displayPitGauge(curData.pittemp);
+					if (curData.status==1) {
+					$('#curStatus').text("Cook Running: SetPoint "+ curSetPoint + " (f) ");
+					$('#cookstart').hide();
+					$('#cookend').show();					
+					$('#setempbut').show();
+					}
+					   else {
+					   $('#curStatus').text("Cook Stopped!");
+					   $('#cookstart').show();
+					   $('#cookend').hide();
+					   $('#setempbut').hide();
+					   }
+					
+
+                }
+		
+getUpdates();
+setInterval(getUpdates, upInterval);
+
+		
+// ***********************   GRAPHING SECTION
+
+
+
+function parseCSV(str) {
+    var arr = [];
+    var quote = false;  // true means we're inside a quoted field
+    for (var row = col = c = 0; c < str.length; c++) {
+        var cc = str[c], nc = str[c+1];        // current character, next character
+        arr[row] = arr[row] || [];             // create a new row if necessary
+        arr[row][col] = arr[row][col] || '';   // create a new column (start with empty string) if necessary
+        if (cc == '"' && quote && nc == '"') { arr[row][col] += cc; ++c; continue; }  
+        if (cc == '"') { quote = !quote; continue; }
+        if (cc == ',' && !quote) { ++col; continue; }
+        if (cc == '\n' && !quote) { ++row; col = 0; continue; }
+        arr[row][col] += cc;
+    }
+    return arr;
+}
+
+function formatDate(date) {  
+  date.setTime(date.getTime() + (date.getTimezoneOffset() * 60 * 1000));
+  var hours = date.getHours();
+  var minutes = date.getMinutes();
+  var ampm = hours >= 12 ? 'pm' : 'am';
+  hours = hours % 12;
+  hours = hours ? hours : 12; // the hour '0' should be '12'
+  minutes = minutes < 10 ? '0'+minutes : minutes;
+  var strTime = hours + ':' + minutes + ' ' + ampm;
+  return strTime;
+  //return date.getMonth()+1 + "/" + date.getDate() + "/" + date.getFullYear() + " " + strTime;
+}
+
+
+var cdata = {
+    labels: [],
+     datasets: [{
+            label: 'Pit Temp',
+			fill: false,
+            data: [],            
+            backgroundColor: "rgba(196, 43, 89, 0.8)",
+            borderColor: "rgba(196, 43, 89, 1)",
+            borderCapStyle: 'butt',
+            borderDash: [],
+            borderDashOffset: 0.0,
+            borderJoinStyle: 'miter',
+            pointBorderColor: "rgba(196, 43, 89, 1)",
+            pointBackgroundColor: "#fff",
+            pointBorderWidth: 2,
+            pointHoverRadius: 5,
+            pointHoverBackgroundColor: "rgba(196, 43, 89, 1)",            
+            pointHoverBorderWidth: 2,
+            pointRadius: 1,
+            pointHitRadius: 10,
+			spanGaps: true
+        },{
+            label: 'Set Point',
+			fill: false,
+            data: [],            
+            backgroundColor: "rgba(43, 89, 196, 0.8)",
+            borderColor: "rgba(43, 89, 196, 1)",
+            borderCapStyle: 'butt',
+            borderDash: [1],
+            borderDashOffset: 0.0,
+            borderJoinStyle: 'miter',
+            pointBorderColor: "rgba(43, 89, 196, 1)",
+            pointBackgroundColor: "#fff",
+            pointBorderWidth: 1,
+            pointHoverRadius: 5,
+            pointHoverBackgroundColor: "rgba(43, 89, 196, 1)",
+            pointHoverBorderWidth: 2,
+            pointRadius: 1,
+            pointHitRadius: 10
+        },
+		{
+            label: 'Food 1',
+			fill: false,
+            data: [],            
+            backgroundColor: "rgba(234, 222, 106, 0.8)",
+            borderColor: "rgba(234, 222, 106, 1)",
+            borderCapStyle: 'butt',
+            borderDash: [],
+            borderDashOffset: 0.0,
+            borderJoinStyle: 'miter',
+            pointBorderColor: "rgba(234, 222, 106, 1)",
+            pointBackgroundColor: "#fff",
+            pointBorderWidth: 1,
+            pointHoverRadius: 5,
+            pointHoverBackgroundColor: "rgba(234, 222, 106, 1)",
+            pointHoverBorderWidth: 2,
+            pointRadius: 1,
+            pointHitRadius: 10
+        },{
+            label: 'Food 2',
+			fill: false,
+            data: [],            
+            backgroundColor: "rgba(99, 15, 107, 0.8)",
+            borderColor: "rgba(99, 15, 107, 1)",
+            borderCapStyle: 'butt',
+            borderDash: [],
+            borderDashOffset: 0.0,
+            borderJoinStyle: 'miter',
+            pointBorderColor: "rgba(99, 15, 107, 1)",
+            pointBackgroundColor: "#fff",
+            pointBorderWidth: 1,
+            pointHoverRadius: 5,
+            pointHoverBackgroundColor: "rgba(99, 15, 107, 1)",
+            pointHoverBorderWidth: 2,
+            pointRadius: 1,
+            pointHitRadius: 10
+        },{
+            label: 'Food 3',
+			fill: false,
+            data: [],            
+            backgroundColor: "rgba(15, 107, 53, 0.8)",
+            borderColor: "rgba(15, 107, 53, 1)",
+            borderCapStyle: 'butt',
+            borderDash: [],
+            borderDashOffset: 0.0,
+            borderJoinStyle: 'miter',
+            pointBorderColor: "rgba(15, 107, 53, 1)",
+            pointBackgroundColor: "#fff",
+            pointBorderWidth: 1,
+            pointHoverRadius: 5,
+            pointHoverBackgroundColor: "rgba(15, 107, 53, 1)", 
+            pointHoverBorderWidth: 2,
+            pointRadius: 1,
+            pointHitRadius: 10
+        },{
+            label: 'Fan',
+			fill: false,
+            data: [],            
+            backgroundColor: "rgba(79, 233, 241, 0.8)",
+            borderColor: "rgba(79, 233, 241, 1)",
+            borderCapStyle: 'butt',
+            borderDash: [3],
+            borderDashOffset: 4,
+            borderJoinStyle: 'miter',
+            pointBorderColor: "rgba(79, 233, 241, 1)",
+            pointBackgroundColor: "#fff",
+            pointBorderWidth: 1,
+            pointHoverRadius: 5,
+            pointHoverBackgroundColor: "rgba(79, 233, 241, 1)",
+            pointHoverBorderWidth: 2,
+            pointRadius: 1,
+            pointHitRadius: 10
+        },{
+            label: 'LidOpen',
+			fill: true,
+            data: [],            
+            backgroundColor: "rgba(153, 102, 255, 0.2)",
+            borderColor: "rgba(153, 102, 255, 0.2)",
+            borderCapStyle: 'butt',
+            borderDash: [],
+            borderDashOffset: 0.0,
+            borderJoinStyle: 'miter',
+            pointBorderColor: "rgba(153, 102, 255, 0.2)",
+            pointBackgroundColor: "#fff",
+            pointBorderWidth: 4,
+            pointHoverRadius: 5,
+            pointHoverBackgroundColor: "rgba(153, 102, 255, 0.2)",
+            pointHoverBorderColor: "rgba(153, 102, 255, 0.2)",
+            pointHoverBorderWidth: 4,
+            pointRadius: 2,
+            pointHitRadius: 15
+        }]
+};
+
+var coptions = {
+title: {
+            display: false,
+            text: 'Q-Control Graph'
+        }        
+    }
+
+var ctx = document.getElementById("myChart");
+var filterDateMins=0;
+
+
+Chart.plugins.register({  //draw white background
+  beforeDraw: function(chartInstance) {
+    var ctx = chartInstance.chart.ctx;
+    ctx.fillStyle = "white";
+	//ctx.fill = 'rgba(255, 0, 255, 0.5)';
+    ctx.fillRect(0, 0, chartInstance.chart.width, chartInstance.chart.height);
+  }
+});
+
+var myChart = new Chart(ctx, {
+    type: 'line',
+    data: cdata,
+    options: coptions
+});	
+
+myChart.options.maintainAspectRatio=false;
+myChart.options.legend.position='bottom';
+
+function loadData(filterMins=0,append=false) {  
+					var csvData = new XMLHttpRequest(); 
+            		var wurl = urlHost;
+					
+					filterDateMins=filterMins;  //set global filtermins if passed to func.
+					var current = (filterDateMins==0);  //weather we load current or history data
+					
+					if (current) wurl +="/graphcurdata";   //load current memory stuffs 
+					else wurl +="/curCook.log";    //load history records					
+					
+					if (append==false){  //clear data arrays
+							for (var fx=0; fx < cdata.datasets.length; fx++) { cdata.datasets[fx].data=[]; }  //remove 10 elements from array
+							cdata.labels=[];  //remove labels elements
+							}
+					
+					
+            		csvData.onreadystatechange = function() { 
+            				if (csvData.readyState == 4 && csvData.status == 200) 
+                    					   { 
+										   var data = parseCSV(csvData.responseText);		                                             										   
+										   var d;
+                                           var curDate = new Date(); 										   
+                                           var filterDateCheck= curDate.getTime() - (curDate.getTimezoneOffset() * 60 * 1000) - (filterDateMins * 60 * 1000);  //if filtering build UTC time  																							   
+										   var len = data.length;	
+										   curpos = cdata.labels.length;
+										   for (var i = 0;i < len; i++) {  //create datasets for chart
+										        //set label unixtimestamp to label
+												if (parseInt(data[i][0])==0) continue;													
+												if (current==false) { if ((parseInt(data[i][0]) * 1000)< filterDateCheck) continue; }  //skip filter records..
+												cdata.labels[curpos] = formatDate(new Date(parseInt(data[i][0]) * 1000 ));										        														
+												//add array to datasets
+												cdata.datasets[0].data[curpos]=parseInt(data[i][2]);  //pittemp
+												cdata.datasets[1].data[curpos]=parseInt(data[i][1]);  //setpoint
+												d=parseInt(data[i][3]); if (d>0) cdata.datasets[2].data[curpos]=d;  //Food1
+												d=parseInt(data[i][4]); if (d>0) cdata.datasets[3].data[curpos]=d;  //Food2
+												d=parseInt(data[i][5]); if (d>0) cdata.datasets[4].data[curpos]=d; //Food3
+												d=parseInt(data[i][6]); cdata.datasets[5].data[curpos]=d;  //Fan
+												//d=parseInt(data[i][7]); if (d>0) cdata.datasets[6].data[curpos]=d;  //FanAvg  use fan or fanavg?
+												d=parseInt(data[i][8]); if (d>0) cdata.datasets[6].data[curpos]=parseInt(data[i][2]);;  //lidCountDown set to pittemp if >0																									
+												curpos++;
+										   }										     
+											//alert(cdata.labels[15]); 	
+                                            document.getElementById("trange").disabled=false;											
+											myChart.update();
+                    						 } else if (csvData.readyState == 4 && csvData.status != 200) {document.getElementById("trange").disabled = false;} //some error getting log 
+											 }; 
+            		csvData.open("GET", wurl, true); 
+            		csvData.send(); 
+					}
+					
+loadData(0); //load current records...
+//loadData(true);  //load memory records 
+
+fnTimeChange=function() { 
+document.getElementById("trange").disabled=true;
+loadData(parseInt(document.getElementById("trange").value));
+}
+
+
+
+
+
+setInterval(function(){
+  var i= cdata.labels.length;  
+  //lets keep it to 1 hour history in status page
+  if (i>240 && filterDateMins==0) {   
+  for (var fx=0; fx < cdata.datasets.length; fx++) { cdata.datasets[fx].data.splice(0,20); }  //remove 10 elements from array
+  cdata.labels.splice(0,20);  //remove labels elements
+  i= cdata.labels.length;  
+  }    
+  
+  var curDate = new Date();
+  curDate.setTime(curDate.getTime() - (curDate.getTimezoneOffset() * 60 * 1000));  //modify to UTC   
+												cdata.labels[i] = formatDate(curDate);										        		
+												//add array to datasets
+												cdata.datasets[0].data[i]=parseInt(curData.pittemp);  //pittemp
+												cdata.datasets[1].data[i]=parseInt(curData.setpoint);  //setpoint
+												d=parseInt(curData.food1); if (d>0) cdata.datasets[2].data[i]=d;  //Food1
+												d=parseInt(curData.food2); if (d>0) cdata.datasets[3].data[i]=d;  //Food2
+												d=parseInt(curData.food3); if (d>0) cdata.datasets[4].data[i]=d; //Food3
+												d=parseInt(curData.fancur); cdata.datasets[5].data[i]=d;  //Fan
+												//d=parseInt(data[i][7]); if (d>0) cdata.datasets[6].data[i]=d;  //FanAvg  use fan or fanavg?
+												d=parseInt(curData.lidopen); if (d>0) cdata.datasets[7].data[i]=d;  //lidCountDown
+  myChart.update();  
+}, 15000);
+} //on page load 
+</script>
+
+</body>
+</html>

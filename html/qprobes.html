@@ -1,0 +1,570 @@
+<html><head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script type="text/javascript" src="/jquery.min.js"></script>
+    <script type="text/javascript" src="/bootstrap.min.js"></script>    
+    <link rel="stylesheet" href="/bootstrap.min.css">  
+    </head><body>
+        <div class="navbar navbar-default navbar-static-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-ex-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="#"><span>QControl BBQ Smoker Controller Config</span></a>
+                </div>
+                <div class="collapse navbar-collapse" id="navbar-ex-collapse">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li>
+                            <a href="config.html">Home</a>
+                        </li>
+                        <li>
+                            <a href="network.html">Network</a>
+                        </li>
+                        <li>
+                            <a href="cloudgen.html">Cloud<br></a>
+                        </li>
+                        <li>
+                            <a href="qgeneral.html">Q-Control General<br></a>
+                        </li>
+                        <li class="active">
+                            <a href="#">Probes</a>
+                        </li>
+                        <li>
+                            <a href="utility.html">Utility<br></a>
+                        </li>
+                        <li>
+                            <a href="index.html">Exit</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="section">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="panel panel-primary">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Q-Control Pit Probe #1</h3>
+                            </div>
+                            <div class="panel-body">
+                                <form class="form-horizontal" role="form">
+                                    <div class="form-group">
+                                        <div class="col-sm-3">
+                                            <label class="control-label">Connection</label>
+                                        </div>
+                                        <div class="col-sm-9">
+                                            <select class="form-control" id="p0conn" name="p0conn" value="1">
+                                                <option value="2">Enabled (MAX6675)</option>
+                                                <option value="1">Enabled (ADC)</option>
+                                                <option value="0">Disable</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-3">
+                                            <label class="control-label">Name</label>
+                                        </div>
+                                        <div class="col-sm-9">
+                                            <input class="form-control" id="p0name" name="p0name" type="string" value="Pit Probe"  size="15" maxlength="15">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-3">
+                                            <label class="control-label">Offset (+/-)</label>
+                                        </div>
+                                        <div class="col-sm-9">
+                                            <input class="form-control" id="p0off" name="p0off" type="number">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-3">
+                                            <label class="control-label">Probe Type</label>
+                                        </div>
+                                        <div class="col-sm-9">
+                                            <select class="form-control" id="p0type" name="p0type" onchange="fnProbeChange(0)">
+                                                <option value="0">Custom</option>
+                                                <option value="1">Maverick ET72/3</option>
+                                                <option value="2">Maverick ET73</option>
+                                                <option value="3">Thermaworks PRO TX1000</option>
+                                                <option value="4">Vishay 10k</option>
+                                                <option value="5">iGrill</option>
+                                                <option value="6">Thermaworks PRO TX1004</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-3">
+                                            <label class="control-label">Coefficients (A)</label>
+                                        </div>
+                                        <div class="col-sm-9">
+                                            <input class="form-control" id="p0a" name="p0a" type="string">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-3">
+                                            <label class="control-label">Coefficients (B)</label>
+                                        </div>
+                                        <div class="col-sm-9">
+                                            <input class="form-control" id="p0b" name="p0b" type="string">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-3">
+                                            <label class="control-label">Coefficients (C)</label>
+                                        </div>
+                                        <div class="col-sm-9">
+                                            <input class="form-control" id="p0c" name="p0c" type="string">
+                                        </div>
+                                    </div>
+									<div class="form-group">
+									     <div class="col-sm-4"></div>
+                                        <div class="col-sm-4">
+                                            <label class="control-label">Alarm Low (F)</label>
+											<input class="form-control" id="p0all" name="p0all" type="number" value="-200">
+                                        </div>
+                                        <div class="col-sm-4">                                            
+									        <label class="control-label">Alarm Hi (F)</label>
+											<input class="form-control" id="p0alh" name="p0alh" type="number" value="-20">
+                                        </div>
+                                    </div>                                 									
+                                    <div class="form-group">
+                                        <div class="col-sm-3">
+                                            <label class="control-label">Resistor (R)</label>
+                                        </div>
+                                        <div class="col-sm-9">
+                                            <input class="form-control" id="p0r" name="p0r" type="number" value="10000">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-3">
+                                            <label class="control-label">Hardware Pin (P)</label>
+                                        </div>
+                                        <div class="col-sm-9">
+                                            <input class="form-control" id="p0p" name="p0p" type="number" value="1">
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Q-Control Pit Probe #2</h3>
+                    </div>
+                    <div class="panel-body">
+                        <form class="form-horizontal" role="form">
+                            <div class="form-group">
+                                <div class="col-sm-3">
+                                    <label class="control-label">Connection</label>
+                                </div>
+                                <div class="col-sm-9">
+                                    <select class="form-control" id="p1conn" name="p1conn" value="1">
+                                        <option value="2">Enabled (MAX6675)</option>
+                                        <option value="1">Enabled (ADC)</option>
+                                        <option value="0">Disable</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-3">
+                                    <label class="control-label">Name</label>
+                                </div>
+                                <div class="col-sm-9">
+                                    <input class="form-control" id="p1name" name="p1name" type="string" value="Food1"  size="15" maxlength="15">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-3">
+                                    <label class="control-label">Offset (+/-)</label>
+                                </div>
+                                <div class="col-sm-9">
+                                    <input class="form-control" id="p1off" name="p1off" type="number">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-3">
+                                    <label class="control-label">Probe Type</label>
+                                </div>
+                                <div class="col-sm-9">
+                                    <select class="form-control" id="p1type" name="p1type" onchange="fnProbeChange(1)">
+                                        <option value="0">Custom</option>
+                                        <option value="1">Maverick ET72/3</option>
+                                        <option value="2">Maverick ET73</option>
+                                        <option value="3">Thermaworks PRO TX1000</option>
+                                        <option value="4">Vishay 10k</option>
+                                        <option value="5">iGrill</option>
+                                        <option value="6">Thermaworks PRO TX1004</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-3">
+                                    <label class="control-label">Coefficients (A)</label>
+                                </div>
+                                <div class="col-sm-9">
+                                    <input class="form-control" id="p1a" name="p1a" type="string">
+                                </div>
+                            </div>														
+                            <div class="form-group">
+                                <div class="col-sm-3">
+                                    <label class="control-label">Coefficients (B)</label>
+                                </div>
+                                <div class="col-sm-9">
+                                    <input class="form-control" id="p1b" name="p1b" type="string">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-3">
+                                    <label class="control-label">Coefficients (C)</label>
+                                </div>
+                                <div class="col-sm-9">
+                                    <input class="form-control" id="p1c" name="p1c" type="string">
+                                </div>
+                            </div>
+							<div class="form-group">
+									     <div class="col-sm-4"></div>
+                                        <div class="col-sm-4">
+                                            <label class="control-label">Alarm Low (F)</label>
+											<input class="form-control" id="p1all" name="p1all" type="number" value="-200">
+                                        </div>
+                                        <div class="col-sm-4">                                            
+									        <label class="control-label">Alarm Hi (F)</label>
+											<input class="form-control" id="p1alh" name="p1alh" type="number" value="-20">
+                                        </div>
+                                    </div>   	  
+                            <div class="form-group">
+                                <div class="col-sm-3">
+                                    <label class="control-label">Resistor (R)</label>
+                                </div>
+                                <div class="col-sm-9">
+                                    <input class="form-control" id="p1r" name="p1r" type="number" value="10000">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-3">
+                                    <label class="control-label">Hardware Pin (P)</label>
+                                </div>
+                                <div class="col-sm-9">
+                                    <input class="form-control" id="p1p" name="p1p" type="number" value="2">
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Q-Control Food Probe #2</h3>
+                    </div>
+                    <div class="panel-body">
+                        <form class="form-horizontal" role="form">
+                            <div class="form-group">
+                                <div class="col-sm-3">
+                                    <label class="control-label">Connection</label>
+                                </div>
+                                <div class="col-sm-9">
+                                    <select class="form-control" id="p2conn" name="p2conn" value="0">
+                                        <option value="0">Disable</option>
+                                        <option value="2">Enabled (MAX6675)</option>
+                                        <option value="1">Enabled (ADC)</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-3">
+                                    <label class="control-label">Name</label>
+                                </div>
+                                <div class="col-sm-9">
+                                    <input class="form-control" id="p2name" name="p2name" type="string" value="Food2" size="15" maxlength="15">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-3">
+                                    <label class="control-label">Offset (+/-)</label>
+                                </div>
+                                <div class="col-sm-9">
+                                    <input class="form-control" id="p2off" name="p2off" type="number">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-3">
+                                    <label class="control-label">Probe Type</label>
+                                </div>
+                                <div class="col-sm-9">
+                                    <select class="form-control" id="p2type" name="p2type" onchange="fnProbeChange(2)">
+                                        <option value="0">Custom</option>
+                                        <option value="1">Maverick ET72/3</option>
+                                        <option value="2">Maverick ET73</option>
+                                        <option value="3">Thermaworks PRO TX1000</option>
+                                        <option value="4">Vishay 10k</option>
+                                        <option value="5">iGrill</option>
+                                        <option value="6">Thermaworks PRO TX1004</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-3">
+                                    <label class="control-label">Coefficients (A)</label>
+                                </div>
+                                <div class="col-sm-9">
+                                    <input class="form-control" id="p2a" name="p2a" type="string">
+                                </div>
+                            <div class="form-group">
+                                <div class="col-sm-3">
+                                    <label class="control-label">Coefficients (B)</label>
+                                </div>
+                                <div class="col-sm-9">
+                                    <input class="form-control" id="p2b" name="p2b" type="string">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-3">
+                                    <label class="control-label">Coefficients (C)</label>
+                                </div>
+                                <div class="col-sm-9">
+                                    <input class="form-control" id="p2c" name="p2c" type="string">
+                                </div>
+                            </div>
+							<div class="form-group">
+									     <div class="col-sm-4"></div>
+                                        <div class="col-sm-4">
+                                            <label class="control-label">Alarm Low (F)</label>
+											<input class="form-control" id="p2all" name="p2all" type="number" value="-200">
+                                        </div>
+                                        <div class="col-sm-4">                                            
+									        <label class="control-label">Alarm Hi (F)</label>
+											<input class="form-control" id="p2alh" name="p2alh" type="number" value="-20">
+                                        </div>
+                                    </div> 							
+                            <div class="form-group">
+                                <div class="col-sm-3">
+                                    <label class="control-label">Resistor (R)</label>
+                                </div>
+                                <div class="col-sm-9">
+                                    <input class="form-control" id="p2r" name="p2r" type="number" value="10000">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-3">
+                                    <label class="control-label">Hardware Pin (P)</label>
+                                </div>
+                                <div class="col-sm-9">
+                                    <input class="form-control" id="p2p" name="p2p" type="number" value="3">
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Q-Control Food Probe #3</h3>
+                    </div>
+                    <div class="panel-body">
+                        <form class="form-horizontal" role="form">
+                            <div class="form-group">
+                                <div class="col-sm-3">
+                                    <label class="control-label">Connection</label>
+                                </div>
+                                <div class="col-sm-9">
+                                    <select class="form-control" id="p3conn" name="p3conn" value="0">
+                                        <option value="0">Disable</option>
+                                        <option value="2">Enabled (MAX6675)</option>
+                                        <option value="1">Enabled (ADC)</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-3">
+                                    <label class="control-label">Name</label>
+                                </div>
+                                <div class="col-sm-9">
+                                    <input class="form-control" id="p3name" name="p3name" type="string" value="Food3"  size="15" maxlength="15">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-3">
+                                    <label class="control-label">Offset (+/-)</label>
+                                </div>
+                                <div class="col-sm-9">
+                                    <input class="form-control" id="p3off" name="p3off" type="number">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-3">
+                                    <label class="control-label">Probe Type</label>
+                                </div>
+                                <div class="col-sm-9">
+                                    <select class="form-control" id="p3type" name="p3type" onchange="fnProbeChange(3)">
+                                        <option value="0">Custom</option>
+                                        <option value="1">Maverick ET72/3</option>
+                                        <option value="2">Maverick ET73</option>
+                                        <option value="3">Thermaworks PRO TX1000</option>
+                                        <option value="4">Vishay 10k</option>
+                                        <option value="5">iGrill</option>
+                                        <option value="6">Thermaworks PRO TX1004</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-3">
+                                    <label class="control-label">Coefficients (A)</label>
+                                </div>
+                                <div class="col-sm-9">
+                                    <input class="form-control" id="p3a" name="p3a" type="string">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-3">
+                                    <label class="control-label">Coefficients (B)</label>
+                                </div>
+                                <div class="col-sm-9">
+                                    <input class="form-control" id="p3b" name="p3b" type="string">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-3">
+                                    <label class="control-label">Coefficients (C)</label>
+                                </div>
+                                <div class="col-sm-9">
+                                    <input class="form-control" id="p3c" name="p3c" type="string">
+                                </div>
+                            </div>
+							<div class="form-group">
+									     <div class="col-sm-4"></div>
+                                        <div class="col-sm-4">
+                                            <label class="control-label">Alarm Low (F)</label>
+											<input class="form-control" id="p3all" name="p3all" type="number" value="-200">
+                                        </div>
+                                        <div class="col-sm-4">                                            
+									        <label class="control-label">Alarm Hi (F)</label>
+											<input class="form-control" id="p3alh" name="p3alh" type="number" value="-20">
+                                        </div>
+                                    </div> 							
+                            <div class="form-group">
+                                <div class="col-sm-3">
+                                    <label class="control-label">Resistor (R)</label>
+                                </div>
+                                <div class="col-sm-9">
+                                    <input class="form-control" id="p3r" name="p3r" type="number" value="10000">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-3">
+                                    <label class="control-label">Hardware Pin (P)</label>
+                                </div>
+                                <div class="col-sm-9">
+                                    <input class="form-control" id="p3p" name="p3p" type="number" value="4">
+                                </div>
+                            </div>
+                        </form>
+                    </div>           
+				</div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <a class="btn btn-block btn-danger btn-lg" id="savebut" name="savebut" onclick="SendFormJson()">Save Changes</a>
+                            </div>
+                        </div>
+                    </div>         
+				</div>				
+            </div>
+			<br><br><br>
+        </div>
+        
+        
+        <script>
+            function fnProbeChange(whichp){      
+              var Svalues = JSON.parse('{"1A": "2.4723753e-4","1B" : "2.3402251e-4","1C": "1.3879768e-7","2A": "5.2668241e-4","2B" : "2.0037400e-4","2C": "2.5703090e-8","3A": "7.0798257e-4","3B" : "2.1983532e-4","3C": "9.3692565e-8","4A": "1.14061e-3,2" ,"4B" : "32134e-4","4C": "9.63666e-8","5A": "0.7739251279e-3","5B":"2.088025997e-4","5C" : "1.154400438e-7","6A": "0.61331811e-3","6B":"2.3203740e-4","6C" : "0.43096421e-7"}'); //parse
+               
+              var myselect=document.getElementById("p"+whichp+"type");   
+              var cursel =  myselect.options[myselect.selectedIndex].value; 
+              if (cursel==0)  {document.getElementById("p"+whichp+"a").disabled=false;}
+            				  else {  document.getElementById("p"+whichp+"a").value=Svalues[cursel+"A"];
+                                      document.getElementById("p"+whichp+"a").disabled=true;}
+              if (cursel==0)  {document.getElementById("p"+whichp+"b").disabled=false;}
+            				  else {  document.getElementById("p"+whichp+"b").value=Svalues[cursel+"B"];
+                                      document.getElementById("p"+whichp+"b").disabled=true;}
+              if (cursel==0)  {document.getElementById("p"+whichp+"c").disabled=false;}
+            				  else {  document.getElementById("p"+whichp+"c").value=Svalues[cursel+"C"];
+                                      document.getElementById("p"+whichp+"c").disabled=true;}   
+            
+            }
+        </script>
+        <script>
+
+           
+        $.get( "/jsonload?f=heatprobes.json", function( data ) {  																			          
+              myFunction(data);                                                                            
+		});
+                                                                              
+            
+            function myFunction(jsonData) {  //process the json from the ESP
+            
+            var jsonDataKeys = Object.keys(jsonData);
+            for(var i=0; i<jsonDataKeys.length; i++){
+                var fields = document.getElementsByName(jsonDataKeys[i]);                        
+                for (var f=0; f<fields.length; f++){
+                var field=fields[f];
+                if (field.getAttribute('type')=='checkbox')                 
+                                          {if (field.getAttribute('value')==jsonData[jsonDataKeys[i]])  field.setAttribute('checked','checked');                                   
+                                          }     
+                else if (field.getAttribute('type')=='radio')                 
+                                          {if (field.getAttribute('value')==jsonData[jsonDataKeys[i]])  field.setAttribute('checked','checked');                                         
+                                           }          
+               else if (field.getAttribute('type')=='button')                 
+                                          {  }//do nothing                                                                
+                else {field.value =  jsonData[jsonDataKeys[i]];}
+                } //for fields loop
+              }//for loop
+            
+              //update dropdownlists:  
+              for(var i=0; i<4; i++) {fnProbeChange(i);}
+            } //function
+        </script>
+		
+		
+		
+		 <script>
+      function SendFormJson(){ 
+                         document.getElementById("savebut").value= "Saved...";
+                         var inputs=document.getElementsByTagName("*")
+                              var data = {};
+                              var field;
+                              var i;
+                            for (i=0; i<inputs.length; i++) 
+                               {
+                                 field = inputs[i];                   
+                                 if (field.tagName == 'INPUT' || field.tagName == 'SELECT')
+                                 {
+                                  if (field.getAttribute('type') != undefined)                                  
+                                        {
+                                          if (field.getAttribute('type')=='checkbox')                 
+                                                      { 
+                                                       if (field.checked)    
+                                                              {data[field.name] = field.value;}                                   
+                                                      }     
+                                           else if (field.getAttribute('type')=='radio')                 
+                                                      {
+                                                       if (field.checked)    
+                                                              {data[field.name] = field.value;}                                   
+                                                      }        
+                                          else if (field.getAttribute('type')=='button')                 
+                                                      {  }//do nothing                                                        
+                                           else {data[field.name] = field.value;}  //not checkbox          
+                                        }
+                                   else  {data[field.name] = field.value;}                          
+                                }//not input or select so do nothing...                       
+                               } //for loop
+                        //alert(   JSON.stringify(data));     
+						$.post( "/jsonsave?f=heatprobes.json&js="+JSON.stringify(data));	
+                        }
+    </script>
+	
+		
+	</body></html>

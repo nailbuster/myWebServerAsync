@@ -1,0 +1,317 @@
+<html><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script type="text/javascript" src="/jquery.min.js"></script>
+    <script type="text/javascript" src="/bootstrap.min.js"></script>    
+    <link rel="stylesheet" href="/bootstrap.min.css">  
+  </head><body>
+    <div class="navbar navbar-default navbar-static-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-ex-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#"><span>QControl BBQ Smoker Controller Config</span></a>
+        </div>
+        <div class="collapse navbar-collapse" id="navbar-ex-collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li>
+              <a href="config.html">Home</a>
+            </li>
+            <li>
+              <a href="network.html">Network</a>
+            </li>
+            <li>
+              <a href="cloudgen.html">Cloud<br></a>
+            </li>
+            <li class="active">
+              <a href="#">Q-Control General<br></a>
+            </li>
+            <li>
+              <a href="qprobes.html">Probes</a>
+            </li>
+            <li>
+              <a href="utility.html">Utility<br></a>
+            </li>
+            <li>
+              <a href="index.html">Exit</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="section">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="panel panel-primary">
+              <div class="panel-heading">
+                <h3 class="panel-title">Q-Control General</h3>
+              </div>
+              <div class="panel-body">
+                <form class="form-horizontal" role="form">
+                  <div class="form-group">
+                    <div class="col-sm-3">
+                      <label class="control-label" for="lidoff">Detect Open Lid Offset in %</label>
+                    </div>
+                    <div class="col-sm-3">
+                      <input class="form-control" id="lidoff" name="lidoff" type="text" size="5" value="6">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="col-sm-3">
+                      <label class="control-label">Open Lid Mode Duration (secs)</label>
+                    </div>
+                    <div class="col-sm-3">
+                      <input class="form-control" id="liddur" name="liddur" type="text" value="240">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="col-sm-3">
+                      <label class="control-label">Max BBQ Set Point (in f)</label>
+                    </div>
+                    <div class="col-sm-3">
+                      <input class="form-control" id="maxset" name="maxset" type="text" value="600">
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="section">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="panel panel-primary">
+              <div class="panel-heading">
+                <h3 class="panel-title">Fan/Servo Setup</h3>
+              </div>
+              <div class="panel-body">
+                <form class="form-horizontal" role="form">
+                  <div class="form-group">
+                    <div class="col-sm-3">
+                      <label class="control-label">Min Fan Speed (0-100)</label>
+                    </div>
+                    <div class="col-sm-3">
+                      <input class="form-control" id="minfan" name="minfan" type="text" value="0">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="col-sm-3">
+                      <label class="control-label">Max Fan speed (0-100)</label>
+                    </div>
+                    <div class="col-sm-3">
+                      <input class="form-control" id="maxfan" name="maxfan" type="text" value="100">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="col-sm-3">
+                      <label class="control-label">Preheat Max Fax speed (0-100)</label>
+                    </div>
+                    <div class="col-sm-3">
+                      <input class="form-control" id="maxstr" name="maxstr" type="text" value="100">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="col-sm-3">
+                      <label class="control-label">Start Fan Above temp (in f)</label>
+                    </div>
+                    <div class="col-sm-3">
+                      <input class="form-control" id="prestr" name="prestr" type="text" value="130">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="col-sm-3">
+                      <label class="control-label">Fan Speed Control:</label>
+                    </div>
+                    <div class="col-sm-3">
+                      <select class="form-control" id="fanpwm" name="fanpwm" value="1">
+                        <option value="1">PWM Mode</option>
+                        <option value="0">Pulse Mode</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="col-sm-3">
+                      <label class="control-label">Fan Start Output (0-255,0=No Servo)</label>
+                    </div>
+                    <div class="col-sm-3">
+                      <input class="form-control" id="fanflr" name="fanflr" type="text" value="50">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="col-sm-3">
+                      <label class="control-label">Servo Low (0-180 degrees)</label>
+                    </div>
+                    <div class="col-sm-3">
+                      <input class="form-control" id="srvlow" name="srvlow" type="text" value="45">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="col-sm-3">
+                      <label class="control-label">Servo High (0-180 degrees)</label>
+                    </div>
+                    <div class="col-sm-3">
+                      <input class="form-control" id="srvhi" name="srvhi" type="text" value="135">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="col-sm-3">
+                      <label class="control-label">Fan Hardware PIN</label>
+                    </div>
+                    <div class="col-sm-3">
+                      <input class="form-control" id="gpio" name="gpio" type="text" value="3">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="col-sm-3">
+                      <label class="control-label">Servo Hardware PIN</label>
+                    </div>
+                    <div class="col-sm-3">
+                      <input class="form-control" id="srvcl" name="srvcl" type="text" value="10">
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="section">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="panel panel-primary">
+              <div class="panel-heading">
+                <h3 class="panel-title">Controller PID Settings</h3>
+              </div>
+              <div class="panel-body">
+                <form class="form-horizontal" role="form">
+                  <div class="form-group">
+                    <div class="col-sm-3">
+                      <label class="control-label">Proportional</label>
+                    </div>
+                    <div class="col-sm-4">
+                      <input class="form-control" id="pidp" name="pidp" type="text" value="4">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="col-sm-3">
+                      <label class="control-label">Integral</label>
+                    </div>
+                    <div class="col-sm-4">
+                      <input class="form-control" id="pidi" name="pidi" type="number" value="0.02">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="col-sm-3">
+                      <label class="control-label">Derivative</label>
+                    </div>
+                    <div class="col-sm-4">
+                      <input class="form-control" id="pidd" name="pidd" type="number" value="5">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="col-sm-3">
+                      <label class="control-label">Frequency (secs)</label>
+                    </div>
+                    <div class="col-sm-4">
+                      <input class="form-control" id="freq" name="freq" type="number" value="5">
+                    </div>
+                  </div>
+                </form>
+				
+				
+              </div>
+			  
+            </div>
+			</div>
+			   <div class="row">
+            <div class="col-md-12">
+              <div class="row">
+                <div class="col-md-12">
+                  <a class="btn btn-block btn-danger btn-lg" id="savebut" name="savebut" onclick="SendFormJson()">Save Changes</a>
+                </div>
+              </div>
+            </div>          
+          </div>
+        </div>
+      </div>	   
+       <br><br><br>
+    </div>
+    <script>
+      
+            
+            $.get( "/jsonload?f=heatgeneral.json", function( data ) {  																			          
+                              myFunction(data);                                                                            
+							});
+            
+            function myFunction(jsonData) {  //process the json from the ESP
+            
+            var jsonDataKeys = Object.keys(jsonData);
+            for(var i=0; i<jsonDataKeys.length; i++){
+                var fields = document.getElementsByName(jsonDataKeys[i]);                        
+                for (var f=0; f<fields.length; f++){
+                var field=fields[f];
+                if (field.getAttribute('type')=='checkbox')                 
+                                          {if (field.getAttribute('value')==jsonData[jsonDataKeys[i]])  field.setAttribute('checked','checked');                                   
+                                          }     
+                else if (field.getAttribute('type')=='radio')                 
+                                          {if (field.getAttribute('value')==jsonData[jsonDataKeys[i]])  field.setAttribute('checked','checked');                                         
+                                           } 
+                else if (field.getAttribute('type')=='button')                 
+                                          {  }//do nothing  
+                                                                                  
+                else {field.value =  jsonData[jsonDataKeys[i]];}
+                } //for fields loop
+              }//for loop
+            } //function
+    </script>
+	
+	 <script>
+      function SendFormJson(){ 
+                         document.getElementById("savebut").value= "Saved...";
+                         var inputs=document.getElementsByTagName("*")
+                              var data = {};
+                              var field;
+                              var i;
+                            for (i=0; i<inputs.length; i++) 
+                               {
+                                 field = inputs[i];                   
+                                 if (field.tagName == 'INPUT' || field.tagName == 'SELECT')
+                                 {
+                                  if (field.getAttribute('type') != undefined)                                  
+                                        {
+                                          if (field.getAttribute('type')=='checkbox')                 
+                                                      { 
+                                                       if (field.checked)    
+                                                              {data[field.name] = field.value;}                                   
+                                                      }     
+                                           else if (field.getAttribute('type')=='radio')                 
+                                                      {
+                                                       if (field.checked)    
+                                                              {data[field.name] = field.value;}                                   
+                                                      }        
+                                          else if (field.getAttribute('type')=='button')                 
+                                                      {  }//do nothing                                                        
+                                           else {data[field.name] = field.value;}  //not checkbox          
+                                        }
+                                   else  {data[field.name] = field.value;}                          
+                                }//not input or select so do nothing...                       
+                               } //for loop
+                        //alert(   JSON.stringify(data));    						
+						$.post( "/jsonsave?f=heatgeneral.json&js="+JSON.stringify(data));	
+                        }
+    </script>
+	
+	
+  
+
+</body></html>

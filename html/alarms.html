@@ -1,0 +1,140 @@
+<html><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script type="text/javascript" src="/jquery.min.js"></script>
+    <script type="text/javascript" src="/bootstrap.min.js"></script>    
+    <link rel="stylesheet" href="/bootstrap.min.css">    		
+  </head><body>
+    <div class="navbar navbar-default navbar-static-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-ex-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#"><span>Q-Control BBQ Smoker</span></a>
+        </div>
+        <div class="collapse navbar-collapse" id="navbar-ex-collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li >
+              <a href="index.html">Home</a>
+            </li>
+            <li class="active">
+              <a  href="#">Alarms</a>
+            </li>
+            <li>
+              <a href="#">Cloud<br></a>
+            </li>
+            <li>
+              <a href="config.html">Config</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+   <div id="alarms" class="container">
+        <form id="alarmform" name="alarmform" class="form-inline" role="form">
+            <br>
+            <label class="label label-primary" id="p0">Pit Probe </label>&nbsp&nbsp
+            <label>Low</label>
+            <input id="plo1" name="plo1" type="number" class="form-control">
+            <label>Hi</label>
+            <input id="phi1" name="phi1" type="number" class="form-control">
+            <label>Status</label>
+            <select id="pa1" name="pa1" value="0" class="form-control">
+                <option value="0">Enabled</option>
+                <option value="1">Disable</option>
+            </select>
+            <br>
+            <br>
+            <label class="label label-primary" id="p1">Food #1</label>&nbsp&nbsp
+            <label>Low</label>
+            <input id="plo2" name="plo2" type="number" class="form-control">
+            <label>Hi </label>
+            <input id="phi2" name="phi2" type="number" class="form-control">
+            <label>Status </label>
+            <select id="pa2" name="pa2" value="0" class="form-control">
+                <option value="0">Enabled</option>
+                <option value="1">Disable</option>
+            </select>
+            <br>
+            <br>
+            <label class="label label-primary" id="p2">Food #2 </label>&nbsp&nbsp
+            <label>Low</label>
+            <input id="plo3" name="plo3" type="number" class="form-control">
+            <label>Hi </label>
+            <input id="phi3" name="phi3" type="number" class="form-control">
+            <label>Status </label>
+            <select id="pa3" name="pa3" value="0" class="form-control">
+                <option value="0">Enabled</option>
+                <option value="1">Disable</option>
+            </select>
+            <br>
+            <br>
+            <label class="label label-primary" id="p3">Food #3 </label>&nbsp&nbsp
+            <label>Low</label>
+            <input id="plo4" name="plo4" type="number" class="form-control">
+            <label>Hi </label>
+            <input id="phi4" name="phi4" type="number" class="form-control">
+            <label>Status </label>
+            <select id="pa4" name="pa4" value="0" class="form-control">
+                <option value="0">Enabled</option>
+                <option value="1">Disable</option>
+            </select>
+            <br>
+            <br>
+            <br>
+            <input type="button" name="sendal" id="sendal" value="Save/Send alarms" onclick="SendAlarms()" class="btn btn-success" />&nbsp&nbsp            
+            <hr>
+        </form>
+	</div>	
+	
+<script>    
+//get alarmsJSON
+window.onload = function () {
+ $.get( "/getavr?do=getalarm", function( data ) {  																			          
+                    var probes=data.ProbeNames;
+					var probesLo=data.ProbeAlarmsLo;					
+					var probesHi=data.ProbeAlarmsHi;					
+					for (i = 0; i < probes.length; i++) { 
+								$("#p"+String(i)).text(probes[i]);								
+								$("#plo"+String(i+1)).val(probesLo[i]);		                                					
+								$("#phi"+String(i+1)).val(probesHi[i]);								
+								 }	                                                                           
+							});
+} //on windows load
+</script>
+  
+  <script>
+  function SendAlarms() {            
+            var alarmst = ""; //alarmstring to send to avr
+            if (document.getElementById("pa1").value == "0") {
+                alarmst += "," + document.getElementById("plo1").value + "," + document.getElementById("phi1").value;
+            } else {
+                alarmst += ",-10,-10";
+            }
+            if (document.getElementById("pa2").value == "0") {
+                alarmst += "," + document.getElementById("plo2").value + "," + document.getElementById("phi2").value;
+            } else {
+                alarmst += ",-10,-10";
+            }
+            if (document.getElementById("pa3").value == "0") {
+                alarmst += "," + document.getElementById("plo3").value + "," + document.getElementById("phi3").value;
+            } else {
+                alarmst += ",-10,-10";
+            }
+            if (document.getElementById("pa4").value == "0") {
+                alarmst += "," + document.getElementById("plo4").value + "," + document.getElementById("phi4").value;
+            } else {
+                alarmst += ",-10,-10";
+            }
+            //alert("$ALARM"+alarmst);
+            $.post('/setavr?do=setalarm&alarms=$ALARM' + alarmst);
+        }
+</script>		  
+  
+  
+</body>
+</html>

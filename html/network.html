@@ -1,0 +1,409 @@
+<html><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script type="text/javascript" src="/jquery.min.js"></script>
+    <script type="text/javascript" src="/bootstrap.min.js"></script>    
+    <link rel="stylesheet" href="/bootstrap.min.css">    
+  </head><body>
+ <div class="navbar navbar-default navbar-static-top"><div class="container"><div class="navbar-header">
+ <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-ex-collapse">
+ <span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
+ </button><a class="navbar-brand" href="#"><span>QControl BBQ Smoker Controller Config</span></a></div>
+ <div class="collapse navbar-collapse" id="navbar-ex-collapse"><ul class="nav navbar-nav navbar-right">
+ <li><a href="config.html">Home</a></li>
+ <li class="active"><a href="#">Network</a></li>
+ <li><a href="cloudgen.html">Cloud<br></a></li>
+ <li><a href="qgeneral.html">Q-Control General<br></a></li>
+ <li><a href="qprobes.html">Probes</a></li>
+ <li><a href="utility.html">Utility<br></a></li>
+ <li><a href="index.html">Exit</a></li>
+ </ul></div></div></div>    
+    <div class="section">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="panel panel-primary">
+              <div class="panel-heading">
+                <h3 class="panel-title">WiFi Settings</h3>
+              </div>
+              <div class="panel-body">
+                <form class="form-horizontal" role="form">
+                  <div class="form-group">
+                    <div class="col-sm-2">
+                      <label for="devicename" class="control-label">Network Device name</label>
+                    </div>
+                    <div class="col-sm-10">
+                      <input type="text" class="form-control" name="devicename" placeholder="Device Name">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="col-sm-2">
+                      <label for="ssid" class="control-label">Network SSID</label>
+                    </div>
+                    <div class="col-sm-10">
+                      <input type="text" class="form-control" name="ssid" id="ssid" placeholder="SSID">
+                    </div>
+                    <div class="col-sm-offset-2 col-sm-10">
+                      <input type="button" class="btn" name="scanbut" id="scanbut" onclick="wifiScan()" value="Scan">
+                      <div class="col-sm-10">
+                        <select class="form-control" name="scan" id="scan" value="" style="visibility:hidden;color:blue;" onchange="fnSSIDSet()"></select>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="col-sm-2">
+                      <label class="control-label">WiFi Password</label>
+                    </div>
+                    <div class="col-sm-10">
+                      <input type="password" class="form-control" placeholder="Wifi Password" id="password" name="password">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="col-sm-2">
+                      <label class="control-label">Dynamic IP</label>
+                    </div>
+                    <div class="col-sm-3">
+                      <select class="form-control" name="dhcp" id="dhcp" value="1" onchange="fnDHCPSet()">
+                        <option value="1">Enabled</option>
+                        <option value="0">Disable</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div id="IPSetup" style="visibility:hidden;display:none;">
+                    <div class="form-group">
+                      <div class="col-sm-1">
+                        <label class="control-label">Static IP</label>
+                      </div>
+                      <div class="col-sm-2">
+                        <input type="text" class="form-control" size="3" maxlength="3" id="ip_0" name="ip_0">
+                      </div>
+                      <div class="col-sm-2">
+                        <input type="text" class="form-control" size="3" maxlength="3" id="ip_1" name="ip_1">
+                      </div>
+                      <div class="col-sm-2">
+                        <input type="text" class="form-control" size="3" maxlength="3" id="ip_2" name="ip_2">
+                      </div>
+                      <div class="col-sm-2">
+                        <input type="text" class="form-control" size="3" maxlength="3" id="ip_3" name="ip_3">
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <div class="col-sm-1">
+                        <label class="control-label">NetMask:</label>
+                      </div>
+                      <div class="col-sm-2">
+                        <input type="text" class="form-control" size="3" maxlength="3" id="nm_0" name="nm_0">
+                      </div>
+                      <div class="col-sm-2">
+                        <input type="text" class="form-control" size="3" maxlength="3" id="nm_1" name="nm_1">
+                      </div>
+                      <div class="col-sm-2">
+                        <input type="text" class="form-control" size="3" maxlength="3" id="nm_2" name="nm_2">
+                      </div>
+                      <div class="col-sm-2">
+                        <input type="text" class="form-control" size="3" maxlength="3" id="nm_3" name="nm_3">
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <div class="col-sm-1">
+                        <label class="control-label">Gateway</label>
+                      </div>
+                      <div class="col-sm-2">
+                        <input type="text" class="form-control" size="3" maxlength="3" id="gw_0" name="gw_0">
+                      </div>
+                      <div class="col-sm-2">
+                        <input type="text" class="form-control" size="3" maxlength="3" id="gw_1" name="gw_1">
+                      </div>
+                      <div class="col-sm-2">
+                        <input type="text" class="form-control" size="3" maxlength="3" id="gw_2" name="gw_2">
+                      </div>
+                      <div class="col-sm-2">
+                        <input type="text" class="form-control" size="3" maxlength="3" id="gw_3" name="gw_3">
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="section">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="panel panel-primary">
+              <div class="panel-heading">
+                <h3 class="panel-title">Security</h3>
+              </div>
+              <div class="panel-body">
+                <form class="form-horizontal" role="form">
+                  <div class="form-group">
+                    <div class="col-sm-2">
+                      <label class="control-label">Admin User Name:</label>
+                    </div>
+                    <div class="col-sm-10">
+                      <input type="text" class="form-control" disabled="disabled" placeholder="admin">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="col-sm-2">
+                      <label class="control-label" for="AccessPass">Admin Password:</label>
+                    </div>
+                    <div class="col-sm-10">
+                      <input type="password" class="form-control" name="AccessPass" id="AccessPass" placeholder="Password">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="col-sm-2">
+                      <label class="control-label">Confirm Password:</label>
+                    </div>
+                    <div class="col-sm-10">
+                      <input type="password" class="form-control" placeholder="Confirm" name="AccessPass2" id="AccessPass2">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                      <div class="checkbox">
+                        <label class="checkbox-inline">
+                          <input type="checkbox" name="Public" value="true">Allow Anonymous</label>
+                        <label class="checkbox-inline">
+                          <input type="checkbox" name="SoftAP" value="true">Soft AP always ON</label>
+                        <label class="checkbox-inline">
+                          <input type="checkbox" name="mDNSoff" value="true">Disable mDNS</label>
+                        <label class="checkbox-inline">
+                          <input type="checkbox" name="CDNSoff" value="true">Disable Captive DNS</label>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="section">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="panel panel-primary">
+              <div class="panel-heading">
+                <h3 class="panel-title">NTP Server Time</h3>
+              </div>
+              <div class="panel-body">
+                <form class="form-horizontal" role="form">
+                  <div class="form-group">
+                    <div class="col-sm-3">
+                      <label class="control-label">Use NTP (Get Internet Time)</label>
+                    </div>
+                    <div class="col-sm-3">
+                      <select class="form-control" id="grabntp" name="grabntp" value="0">
+                        <option value="0">Disabled</option>
+                        <option value="1">Enabled</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="col-sm-3">
+                      <label class="control-label">NTP Server</label>
+                    </div>
+                    <div class="col-sm-9">
+                      <input type="text" class="form-control" id="ntpserver" name="ntpserver" maxlength="172" value="0.de.pool.ntp.org">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="col-sm-3">
+                      <label class="control-label">Update Interval (minutes)
+                        <br>
+                      </label>
+                    </div>
+                    <div class="col-sm-1">
+                      <input type="text" class="form-control" id="update" name="update" size="3" maxlength="6" value="600">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="col-sm-3">
+                      <label class="control-label">Time Zone</label>
+                    </div>
+                    <div class="col-sm-3">
+                      <select class="form-control" id="tz" name="tz">
+                        <option value="-120">(GMT-12:00)</option>
+                        <option value="-110">(GMT-11:00)</option>
+                        <option value="-100">(GMT-10:00)</option>
+                        <option value="-90">(GMT-09:00)</option>
+                        <option value="-80">(GMT-08:00)</option>
+                        <option value="-70">(GMT-07:00)</option>
+                        <option value="-60">(GMT-06:00)</option>
+                        <option value="-50">(GMT-05:00)</option>
+                        <option value="-40">(GMT-04:00)</option>
+                        <option value="-35">(GMT-03:30)</option>
+                        <option value="-30">(GMT-03:00)</option>
+                        <option value="-20">(GMT-02:00)</option>
+                        <option value="-10">(GMT-01:00)</option>
+                        <option value="0">(GMT+00:00)</option>
+                        <option value="10">(GMT+01:00)</option>
+                        <option value="20">(GMT+02:00)</option>
+                        <option value="30">(GMT+03:00)</option>
+                        <option value="35">(GMT+03:30)</option>
+                        <option value="40">(GMT+04:00)</option>
+                        <option value="45">(GMT+04:30)</option>
+                        <option value="50">(GMT+05:00)</option>
+                        <option value="55">(GMT+05:30)</option>
+                        <option value="57">(GMT+05:45)</option>
+                        <option value="60">(GMT+06:00)</option>
+                        <option value="65">(GMT+06:30)</option>
+                        <option value="70">(GMT+07:00)</option>
+                        <option value="80">(GMT+08:00)</option>
+                        <option value="90">(GMT+09:00)</option>
+                        <option value="95">(GMT+09:30)</option>
+                        <option value="100">(GMT+10:00)</option>
+                        <option value="110">(GMT+11:00)</option>
+                        <option value="120">(GMT+12:00)</option>
+                        <option value="120">(GMT+12:00)</option>
+                        <option value="130">(GMT+13:00)</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="col-sm-3">
+                      <label class="control-label">Use DayLight Savings Time</label>
+                    </div>
+                    <div class="col-sm-3">
+                      <select class="form-control" id="dst" name="dst" value="0">
+                        <option value="1">Yes</option>
+                        <option value="0">No</option>
+                      </select>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="row">
+              <div class="col-md-12">
+                <a class="btn btn-block btn-danger btn-lg" id="savebut" name="savebut" onclick="SendFormJson()">Save Changes</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+	   <br><br><br>
+    </div>
+    <script>
+      function fnDHCPSet() { 
+            	  var de=document.getElementById("IPSetup"); 
+            	  if (document.getElementById("dhcp").value=="0")
+                  {            	      
+                     de.style.visibility='visible';
+                     de.style.display='inline';                    
+                  }	
+            		  else {
+                            de.style.display='none';
+                            de.style.visibility='hidden';
+                            } 
+                           }                            
+            		  
+                    					
+                function fnSSIDSet() { document.getElementById("ssid").value=document.getElementById("scan").value; } 
+                    	
+                function wifiScan() { 
+            		var wifihttp = new XMLHttpRequest(); 
+            		var wurl ="/availnets"; 
+            		wifihttp.onreadystatechange = function() { 
+            				if (wifihttp.readyState == 4 && wifihttp.status == 200) 
+                    					   { var jsonList = JSON.parse(wifihttp.responseText);
+                    						 var listItems='"<option value="">' + 'Select...</option>'; //add temp line for onchange to fire. 
+            								 for (var i = 0; i< jsonList.Networks.length; i++){ 
+            								    listItems+='"<option value="'+ jsonList.Networks[i].ssidname + '">' + jsonList.Networks[i].ssidname+'   ('+jsonList.Networks[i].qual+ '%)</option>'; } 
+            									document.getElementById("scan").innerHTML=listItems; 
+            									document.getElementById("scanbut").value='Scan'
+                                                                ; } }; 
+            		wifihttp.open("GET", wurl, true); 
+            		wifihttp.send(); 
+            		document.getElementById("scan").style.visibility='visible' ; 
+            		document.getElementById("scanbut").value='wait'; }
+    </script>
+    <script>
+
+                                                                              $.get( "/jsonload?f=wifiset.json", function( data ) {  																			          
+                                                                                      myFunction(data);                                                                            
+																				});
+                                                                              
+                                                                              
+                                                                              
+                                                                              function myFunction(jsonData) {  //process the json from the ESP
+                                                                              
+                                                                              var jsonDataKeys = Object.keys(jsonData);
+                                                                              for(var i=0; i<jsonDataKeys.length; i++){
+                                                                                  var fields = document.getElementsByName(jsonDataKeys[i]);                        
+                                                                                  for (var f=0; f<fields.length; f++){
+                                                                                  var field=fields[f];
+                                                                                  if (field.getAttribute('type')=='checkbox')                 
+                                                                                                            {if (field.getAttribute('value')==jsonData[jsonDataKeys[i]])  field.setAttribute('checked','checked');                                   
+                                                                                                            }     
+                                                                                  else if (field.getAttribute('type')=='radio')                 
+                                                                                                            {if (field.getAttribute('value')==jsonData[jsonDataKeys[i]])  field.setAttribute('checked','checked');                                         
+                                                                                                             } 
+                                                                                  else if (field.getAttribute('type')=='button')                 
+                                                                                                            {  }//do nothing  
+                                                                                                                                                    
+                                                                                  else {field.value =  jsonData[jsonDataKeys[i]];}
+                                                                                  } //for fields loop
+                                                                                }//for loop
+                                                                                fnDHCPSet(); //update any cells;
+                                                                              } //function
+    </script>
+    <script>
+      function SendFormJson(){ 
+                                                                               var inputs=document.getElementsByTagName("*")
+                                                                               if (inputs['AccessPass'].value!=inputs['AccessPass2'].value )
+                                                                                 {
+                                                                                  alert("WebServer Passwords are not the same!!")
+                                                                                  exit;
+                                                                                 } 
+                                                                                  if (inputs['devicename'].value=="" )
+                                                                                 {
+                                                                                  alert("Device Name cannot be blank!!")
+                                                                                  exit;
+                                                                                 } 
+                                                                               inputs['savebut'].value="Restarting..."; 
+                                                                               var data = {};
+                                                                               var field;
+                                                                               var i;
+                                                                                  for (i=0; i<inputs.length; i++) 
+                                                                                     {
+                                                                                       field = inputs[i];                   
+                                                                                       if (field.tagName == 'INPUT' || field.tagName == 'SELECT')
+                                                                                       {
+                                                                                        if (field.getAttribute('type') != undefined)                                  
+                                                                                              {
+                                                                                                if (field.getAttribute('type')=='checkbox')                 
+                                                                                                            { 
+                                                                                                             if (field.checked)    
+                                                                                                                    {data[field.name] = field.value;}                                   
+                                                                                                            }     
+                                                                                                 else if (field.getAttribute('type')=='radio')                 
+                                                                                                            {
+                                                                                                             if (field.checked)    
+                                                                                                                    {data[field.name] = field.value;}                                   
+                                                                                                            }      
+                                                                                                 else if (field.getAttribute('type')=='button')                 
+                                                                                                            {  }//do nothing                                          
+                                                                                                 else {data[field.name] = field.value;}  //not checkbox          
+                                                                                              }
+                                                                                         else  {data[field.name] = field.value;}                          
+                                                                                      }//not input or select so do nothing...                       
+                                                                                     } //for loop
+																					 //alert("/jsonsave?f=wifiset.json&js="+JSON.stringify(data));
+																			  $.post( "/jsonsave?f=wifiset.json&js="+JSON.stringify(data));		                                                                           
+                                                                              alert("Please reboot device!");
+                                                                              }
+    </script>
+  
+
+</body></html>
