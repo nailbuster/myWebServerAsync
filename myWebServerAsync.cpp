@@ -221,8 +221,7 @@ String MyWebServerClassAsync::urlencode(String str)
 			encodedString += code0;
 			encodedString += code1;
 			//encodedString+=code2;
-		}
-		yield();
+		}		
 	}
 	return encodedString;
 }
@@ -233,8 +232,7 @@ String MyWebServerClassAsync::urlencode(String str)
 
 bool isAdmin(AsyncWebServerRequest *request)
 {
-	if (ConfigPassword == "") return true; //not using web password (default);
-	DebugPrintln("U:" + ConfigUsername + " P:" + ConfigPassword);
+	if (ConfigPassword == "") return true; //not using web password (default);	
 	bool isAuth = false;
 	//String realm = "*";
 	if (!request->authenticate(ConfigUsername.c_str(), ConfigPassword.c_str())) {
