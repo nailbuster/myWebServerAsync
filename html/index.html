@@ -445,10 +445,10 @@ var upInterval = 3000;   //every 3 seconds
 					
 function getUpdates(){
         //curData=JSON.parse('{"pittemp":425,"food1":144,"food2":122,"food3":123,"fanavg":80,"fancur":40,"setpoint":454,"lidopen":0}');
-		//curData=JSON.parse('{"pittemp":425,"food1":144,"fanavg":80,"fancur":40,"setpoint":454,"lidopen":0}');
+		curData=JSON.parse('{"pittemp":425,"food1":144,"fanavg":80,"fancur":40,"setpoint":454,"lidopen":0,"PN0":"Pit Temp","PN1":"Chicken"}');
 		//curData=JSON.parse('{"pittemp":425,"food1":144,"food2":122,"fanavg":80,"fancur":40,"setpoint":454,"lidopen":0}');
-		//updatedisplay(); 
-		//return;
+		updatedisplay(); 
+		return;
         var xmlhttp = new XMLHttpRequest();
         var url = urlHost+"/curinfo";
         
