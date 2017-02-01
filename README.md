@@ -1,9 +1,19 @@
-# myWebServer
-myWebServer library for esp8266/nodemcu arduino ide.  
+# myWebServerAsync
+myWebServer Async library for esp8266/nodemcu arduino ide.  
 
-Uses Arduino IDE,  ensure latest esp8266 from:  https://github.com/esp8266/Arduino  (make sure you are using staging version, or a release after Jan 2016)
+This is a redesign of my other project:  https://github.com/nailbuster/myWebServer   
+
+This server uses the Async WEB/TCP library so that it can handle requests quickly and non-blocking.  It also includes jquery/bootstrap/css/fontawesome within the library so they are available when booted up.
+
+You can try and flash the bin file to your esp8266 to sample the webserver....
+
+Uses Arduino IDE,  ensure latest esp8266 from:  https://github.com/esp8266/Arduino  
 
 Library requires the use of the following 3rd party libraries to be installed:
+
+Async Web Server https://github.com/me-no-dev/ESPAsyncWebServer
+
+Async TCP Library https://github.com/me-no-dev/ESPAsyncTCP
 
 TimeLib for ntp here:  https://github.com/PaulStoffregen/Time
 
@@ -14,7 +24,7 @@ I'm staring the library as an easy starting/base for working on the esp8266...  
 
 features:  
 
-It will try and connect to your AcessPoint, if not config/connect it will auto-start local AP like "myespxxxx".  You just connect to that AP with your phone/tablet and it will display Wifi connect configuration.  (Uses captive DNS so you can just go to browser and type setup.com or "anything".com).  restart nodemcu after you've configured connection....
+It will try and connect to your AccessPoint, if not config/connect it will auto-start local AP like "myespxxxx".  You just connect to that AP with your phone/tablet and it will display Wifi connect configuration.  (Uses captive DNS so you can just go to browser and type setup.com or "anything".com).  restart nodemcu after you've configured connection....
 
 Afterwards once device connected to your local router/internet.  You go to it's local lan IP, or if your system supports mDNS you can type http://"device_name".local on your browser(device name is from setup from above).  
 
